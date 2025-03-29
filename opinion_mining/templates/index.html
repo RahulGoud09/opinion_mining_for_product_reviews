@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opinion Mining for Product Reviews</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            color: white;
+            padding: 100px 0;
+            margin-bottom: 50px;
+        }
+        .feature-card {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #000DFF;
+        }
+        .how-it-works {
+            background-color: #f8f9fa;
+            padding: 50px 0;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: #000DFF;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Opinion Mining</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/predict">Analyze Reviews</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 mb-4">Opinion Mining for Product Reviews</h1>
+            <p class="lead mb-4">Advanced sentiment analysis using NLP to understand customer feedback</p>
+            <a href="/predict" class="btn btn-light btn-lg">Start Analysis</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="container mb-5">
+        <h2 class="text-center mb-5">Key Features</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-brain feature-icon"></i>
+                        <h3>Advanced NLP</h3>
+                        <p>Utilizes state-of-the-art natural language processing techniques for accurate sentiment analysis.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h3>Multi-source Analysis</h3>
+                        <p>Analyzes reviews from multiple sources to provide comprehensive insights.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3>Fake Review Detection</h3>
+                        <p>Identifies and filters out potentially fake or biased reviews.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="text-center mb-5">How It Works</h2>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="text-center">
+                        <div class="step-number mx-auto">1</div>
+                        <h4>Input Reviews</h4>
+                        <p>Enter product URL or paste review text directly</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="text-center">
+                        <div class="step-number mx-auto">2</div>
+                        <h4>Processing</h4>
+                        <p>Reviews are cleaned and preprocessed</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="text-center">
+                        <div class="step-number mx-auto">3</div>
+                        <h4>Analysis</h4>
+                        <p>Sentiment analysis is performed</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="text-center">
+                        <div class="step-number mx-auto">4</div>
+                        <h4>Results</h4>
+                        <p>Get detailed insights and statistics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 Opinion Mining. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

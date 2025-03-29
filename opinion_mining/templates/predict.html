@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Analysis - Opinion Mining</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #6c5ce7, #a363d9);
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        .btn-primary {
+            background-color: #6c5ce7;
+            border-color: #6c5ce7;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+        }
+        .btn-primary:hover {
+            background-color: #5b4bc4;
+            border-color: #5b4bc4;
+        }
+        .sentiment-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .sentiment-positive {
+            background-color: #a8e6cf;
+            color: #1d6d4c;
+        }
+        .sentiment-negative {
+            background-color: #ffb3b3;
+            color: #8b0000;
+        }
+        .sentiment-neutral {
+            background-color: #e8e8e8;
+            color: #666666;
+        }
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+        }
+        .loading-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .review-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+        .review-rating {
+            color: #ffc107;
+            margin: 0.5rem 0;
+        }
+        .verified-badge {
+            color: #28a745;
+            margin-left: 0.5rem;
+        }
+        .insight-card {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-title {
+            color: #2d3436;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, #6c5ce7, #a363d9);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="loading-content">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Analyzing reviews...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">Opinion Mining System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/predict">Analyze</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Input Form -->
+            <div class="col-md-6 mb-4">
+                <div class="card p-4">
+                    <h2 class="mb-4">Analyze Reviews</h2>
+                    <form id="reviewForm" method="POST" action="/predict">
+                        <div class="mb-3">
+                            <label class="form-label">Product URL</label>
+                            <input type="url" class="form-control" name="product_url" placeholder="Enter product URL">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">OR</label>
+                            <textarea class="form-control" name="review_text" rows="4" placeholder="Enter review text directly"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Analyze
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="col-md-6 mb-4">
+                <div class="card p-4">
+                    <h2 class="mb-4">Analysis Results</h2>
+                    {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if results %}
+                    <div class="results-section">
+                        <!-- Overall Sentiment -->
+                        <div class="mb-4">
+                            <h4 class="section-title">Overall Sentiment</h4>
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="sentiment-badge sentiment-{{ results.sentiments[0] if results.sentiments else 'neutral' }} me-3">
+                                    {{ results.sentiments[0]|title if results.sentiments else 'Neutral' }}
+                                </span>
+                                <div class="progress flex-grow-1">
+                                    <div class="progress-bar bg-{{ results.sentiments[0] if results.sentiments else 'warning' }}" 
+                                         role="progressbar" 
+                                         style="width: {{ results.positive_percent if results.sentiments and results.sentiments[0] == 'positive' else results.negative_percent if results.sentiments and results.sentiments[0] == 'negative' else results.neutral_percent }}%">
+                                    </div>
+                                </div>
+                                <span class="ms-2">{{ results.positive_percent if results.sentiments and results.sentiments[0] == 'positive' else results.negative_percent if results.sentiments and results.sentiments[0] == 'negative' else results.neutral_percent }}%</span>
+                            </div>
+                        </div>
+
+                        <!-- Sentiment Distribution -->
+                        <div class="mb-4">
+                            <h4 class="section-title">Sentiment Distribution</h4>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-success" style="width: {{ results.positive_percent }}%">
+                                    {{ results.positive_percent }}%
+                                </div>
+                                <div class="progress-bar bg-warning" style="width: {{ results.neutral_percent }}%">
+                                    {{ results.neutral_percent }}%
+                                </div>
+                                <div class="progress-bar bg-danger" style="width: {{ results.negative_percent }}%">
+                                    {{ results.negative_percent }}%
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between text-muted">
+                                <small>Positive</small>
+                                <small>Neutral</small>
+                                <small>Negative</small>
+                            </div>
+                        </div>
+
+                        <!-- Key Insights -->
+                        <div class="mb-4">
+                            <h4 class="section-title">Key Insights</h4>
+                            <div class="insight-card">
+                                <ul class="list-group list-group-flush">
+                                    {% for insight in results.insights %}
+                                    <li class="list-group-item">
+                                        <i class="fas fa-lightbulb text-warning me-2"></i>
+                                        {{ insight }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Individual Reviews -->
+                        <div class="mb-4">
+                            <h4 class="section-title">Individual Reviews</h4>
+                            {% for review in results.reviews %}
+                            <div class="review-card">
+                                <h5 class="card-title">
+                                    {{ review.title }}
+                                    {% if review.verified %}
+                                    <i class="fas fa-check-circle verified-badge"></i>
+                                    {% endif %}
+                                </h5>
+                                <div class="review-rating">
+                                    {% for i in range(review.rating|int) %}
+                                    <i class="fas fa-star"></i>
+                                    {% endfor %}
+                                </div>
+                                <p class="card-text">{{ review.original }}</p>
+                                <div class="mt-2">
+                                    <span class="sentiment-badge sentiment-{{ results.sentiments[loop.index0] }}">
+                                        {{ results.sentiments[loop.index0]|title }}
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', function() {
+            document.getElementById('loading').style.display = 'block';
+        });
+    </script>
+</body>
+</html> 

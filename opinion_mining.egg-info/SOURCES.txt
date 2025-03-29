@@ -1,0 +1,17 @@
+README.md
+setup.py
+opinion_mining/__init__.py
+opinion_mining/main.py
+opinion_mining.egg-info/PKG-INFO
+opinion_mining.egg-info/SOURCES.txt
+opinion_mining.egg-info/dependency_links.txt
+opinion_mining.egg-info/requires.txt
+opinion_mining.egg-info/top_level.txt
+opinion_mining/data_collection/__init__.py
+opinion_mining/data_collection/review_scraper.py
+opinion_mining/preprocessing/__init__.py
+opinion_mining/preprocessing/text_processor.py
+opinion_mining/sentiment_analysis/__init__.py
+opinion_mining/sentiment_analysis/sentiment_analyzer.py
+opinion_mining/utils/__init__.py
+opinion_mining/utils/logger.py
