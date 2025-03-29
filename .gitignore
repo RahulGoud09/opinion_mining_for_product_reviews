@@ -19,28 +19,112 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # Virtual Environment
 venv/
 env/
 ENV/
+.env/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+*.sublime-project
 
-# Logs
+# Logs and databases
 *.log
+*.sqlite
+*.db
+*.hdf5
 
 # Local development settings
 .env
 .env.local
+instance/
+.webassets-cache
 
 # Model files and data
 *.pkl
 *.h5
 *.model
+*.pt
+*.pth
+*.onnx
+*.pb
+*.tflite
 data/
-models/ 
+models/
+datasets/
+checkpoints/
+runs/
+wandb/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Distribution / packaging
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# Large media files
+*.mp4
+*.mov
+*.avi
+*.wmv
+*.flv
+*.mkv
+*.pdf
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.ico
+*.svg
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*~
+
+# Coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# PyBuilder
+target/
+
+# pyenv
+.python-version
+
+# Cython debug symbols
+cython_debug/ 
